@@ -34,10 +34,6 @@ RUN dotnet publish "Repro.csproj" \
   -p:Version=${VERSION}
 RUN curl -fsSL https://get.pulumi.com/ | bash -s -- --version ${PULUMI_VERSION}
 
-# By default, downloading pulumi comes with the core set of language plugins.
-# These plugins are not the latest versions though, and lag behind for months.
-# We want to be able to control the precise version of the .NET language plugin, so we specifically download the version we need, and swap out the version that comes with pulumi by default.
-# The pulumi-language-dotnet plugin will be put into the /root/.pulumi/dotnet directory.
 RUN curl -L -o pulumi-language-dotnet.tar.gz https://github.com/pulumi/pulumi-dotnet/releases/download/v${PULUMI_LANGUAGE_DOTNET_VERSION}/pulumi-language-dotnet-v${PULUMI_LANGUAGE_DOTNET_VERSION}-linux-amd64.tar.gz
 RUN mkdir -p /root/.pulumi/dotnet
 RUN tar -xzf pulumi-language-dotnet.tar.gz -C /root/.pulumi/dotnet
